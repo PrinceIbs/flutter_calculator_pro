@@ -3,25 +3,64 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(Calculator());
+  runApp(HomeApp());
 }
 
-class Calculator extends StatelessWidget {
+class HomeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final button = <Button>[];
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          //elevation: 0.0,
+          title: Text(
+            "this_Calculator",
+            textDirection: TextDirection.ltr,
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+        ),
+        body: Calculator(),
+      ),
+    );
+  }
+}
 
-    for (int i = 12; i >= 1; i--) {
-      if (i == 12) {
+class Calculator extends StatefulWidget {
+  @override
+  _CalculatorState createState() => _CalculatorState();
+}
+
+class _CalculatorState extends State<Calculator> {
+  final button = <Button>[];
+
+  List<String> output = [];
+  String result = "";
+
+  void press(String value) {
+    setState(() {
+      output.add(value);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // add buttons appropraitely to the list of buttons
+    for (int i = 9; i >= -2; i--) {
+      if (i == 0) {
         button.add(
           Button(
-            textValue: "=",
+            textValue: ".",
             color: Colors.black54,
             fontSize: 26,
             padding: EdgeInsets.only(bottom: 10),
           ),
         );
-      } else if (i == 11) {
+      } else if (i == -1) {
         button.add(
           Button(
             textValue: "0",
@@ -30,10 +69,10 @@ class Calculator extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 10),
           ),
         );
-      } else if (i == 10) {
+      } else if (i == -2) {
         button.add(
           Button(
-            textValue: ".",
+            textValue: "=",
             color: Colors.black54,
             fontSize: 26,
             padding: EdgeInsets.only(bottom: 10),
@@ -50,237 +89,187 @@ class Calculator extends StatelessWidget {
         );
       }
     }
-    return MaterialApp(
-        home: Scaffold(
-            appBar: AppBar(
-              //elevation: 0.0,
-              title: Text("this_Calculator",
+
+    return SafeArea(
+      child: Column(
+        children: [
+          Expanded(
+            child: Container(
+              //height: 90,
+              alignment: Alignment.centerRight,
+              padding: EdgeInsets.only(right: 10),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                reverse: true,
+                child: Text(
+                  output.join(),
                   textDirection: TextDirection.ltr,
                   style: TextStyle(
-                    color: Colors.black,
-                  )),
-              centerTitle: true,
-              backgroundColor: Colors.transparent,
+                    fontSize: 60,
+                    fontWeight: FontWeight.w300,
+                    color: Colors.black54,
+                  ),
+                ),
+              ),
             ),
-            body: SafeArea(
-                child: Column(
+          ),
+          Expanded(
+            child: Container(
+              alignment: Alignment.centerRight,
+              //height: 70,
+              padding: EdgeInsets.only(right: 10, bottom: 14),
+              child: Text(
+                result,
+                textDirection: TextDirection.ltr,
+                style: TextStyle(
+                  fontSize: 35,
+                  fontWeight: FontWeight.w200,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            child: Row(
               children: [
+                // 1 to 9
                 Container(
-                  height: 90,
-                  alignment: Alignment.centerRight,
-                  padding: EdgeInsets.only(right: 10),
-                  child: Text("5+12",
-                      textDirection: TextDirection.ltr,
-                      style: TextStyle(
-                        fontSize: 60,
-                        fontWeight: FontWeight.w300,
-                        color: Colors.black54,
-                      )),
+                  width: 270,
+                  height: 352,
+                  color: Colors.black54,
+                  child: GridView.builder(
+                    shrinkWrap: true,
+                    primary: false,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                    ),
+                    itemCount: button.length,
+                    itemBuilder: (BuildContext context, int index) =>
+                        TextButton(
+                            onPressed: () {
+                              press(button[index].textValue);
+                            },
+                            child: button[index]),
+                  ),
                 ),
                 Container(
-                    alignment: Alignment.centerRight,
-                    height: 70,
-                    padding: EdgeInsets.only(right: 10, bottom: 14),
-                    child: Text(
-                      "17",
-                      textDirection: TextDirection.ltr,
-                      style: TextStyle(
-                        fontSize: 35,
-                        fontWeight: FontWeight.w200,
-                      ),
-                    )),
-                Container(
-                  child: Row(
+                  color: Colors.black54,
+                  width: 65,
+                  height: 352,
+                  child: Column(
                     children: [
-                      Container(
-                        color: Colors.black54,
-                        width: 270,
-                        height: 352,
-                        // child: GridView.count(
-                        //   primary: false,
-                        //   crossAxisSpacing: .2,
-                        //   mainAxisSpacing: .2,
-                        //   crossAxisCount: 3,
-                        //   children: <Widget>[
-                        //     Button(
-                        //       padding: EdgeInsets.only(bottom: 10),
-                        //       color: Colors.black54,
-                        //       textValue: "9",
-                        //       fontSize: 26,
-                        //     ),
-                        //     Button(
-                        //       padding: EdgeInsets.only(bottom: 10),
-                        //       color: Colors.black54,
-                        //       textValue: "8",
-                        //       fontSize: 26,
-                        //     ),
-                        //     Button(
-                        //       padding: EdgeInsets.only(bottom: 10),
-                        //       color: Colors.black54,
-                        //       textValue: "7",
-                        //       fontSize: 26,
-                        //     ),
-                        //     Button(
-                        //       padding: EdgeInsets.only(bottom: 10),
-                        //       color: Colors.black54,
-                        //       textValue: "6",
-                        //       fontSize: 26,
-                        //     ),
-                        //     Button(
-                        //       padding: EdgeInsets.only(bottom: 10),
-                        //       color: Colors.black54,
-                        //       textValue: "5",
-                        //       fontSize: 26,
-                        //     ),
-                        //     Button(
-                        //       padding: EdgeInsets.only(bottom: 10),
-                        //       color: Colors.black54,
-                        //       textValue: "4",
-                        //       fontSize: 26,
-                        //     ),
-                        //     Button(
-                        //       padding: EdgeInsets.only(bottom: 10),
-                        //       color: Colors.black54,
-                        //       textValue: "3",
-                        //       fontSize: 26,
-                        //     ),
-                        //     Button(
-                        //       padding: EdgeInsets.only(bottom: 10),
-                        //       color: Colors.black54,
-                        //       textValue: "2",
-                        //       fontSize: 26,
-                        //     ),
-                        //     Button(
-                        //       padding: EdgeInsets.only(bottom: 10),
-                        //       color: Colors.black54,
-                        //       textValue: "1",
-                        //       fontSize: 26,
-                        //     ),
-                        //     Button(
-                        //       padding: EdgeInsets.only(bottom: 10),
-                        //       color: Colors.black54,
-                        //       textValue: ".",
-                        //       fontSize: 26,
-                        //     ),
-                        //     Button(
-                        //       padding: EdgeInsets.only(bottom: 10),
-                        //       color: Colors.black54,
-                        //       textValue: "0",
-                        //       fontSize: 26,
-                        //     ),
-                        //     Button(
-                        //       padding: EdgeInsets.only(bottom: 10),
-                        //       color: Colors.black54,
-                        //       textValue: "=",
-                        //       fontSize: 26,
-                        //     ),
-                        //     // GridView.builder(
-                        //     //   gridDelegate:
-                        //     //       const SliverGridDelegateWithFixedCrossAxisCount(
-                        //     //     crossAxisCount: 3,
-                        //     //   ),
-                        //     //   itemCount: button.length,
-                        //     //   itemBuilder: (BuildContext context, int index) =>
-                        //     //       button[index],
-                        //     // ),
-                        //   ],
-                        // ),
-                        child: GridView.builder(
-                          primary: false,
-                          // crossAxisSpacing: .2,
-                          // mainAxisSpacing: .2,
-                          // crossAxisCount: 3,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                          ),
-                          itemCount: button.length,
-                          itemBuilder: (BuildContext context, int index) =>
-                              button[index],
-                        ),
+                      Expanded(
+                        child: Container(
+                            padding: const EdgeInsets.all(10),
+                            alignment: Alignment.center,
+                            child: TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  output.removeLast();
+                                  print(output.toString());
+                                });
+                              },
+                              onLongPress: () {
+                                setState(() {
+                                  output.clear();
+                                });
+                              },
+                              child: const Text(
+                                "DEL",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            )),
                       ),
-                      Container(
-                          color: Colors.black54,
-                          width: 65,
-                          height: 352,
-                          child: Column(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                    padding: const EdgeInsets.all(10),
-                                    alignment: Alignment.center,
-                                    child: const Text(
-                                      "DEL",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w300,
-                                      ),
-                                    )),
+                      Expanded(
+                        child: Container(
+                            padding: const EdgeInsets.all(10),
+                            alignment: Alignment.center,
+                            child: TextButton(
+                              onPressed: () {
+                                press("/");
+                              },
+                              child: const Text(
+                                "/",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w300,
+                                ),
                               ),
-                              Expanded(
-                                child: Container(
-                                    padding: const EdgeInsets.all(10),
-                                    alignment: Alignment.center,
-                                    child: const Text(
-                                      "/",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w300,
-                                      ),
-                                    )),
+                            )),
+                      ),
+                      Expanded(
+                        child: Container(
+                            padding: const EdgeInsets.all(10),
+                            alignment: Alignment.center,
+                            child: TextButton(
+                              onPressed: () {
+                                press("x");
+                              },
+                              child: const Text(
+                                "x",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w300,
+                                ),
                               ),
-                              Expanded(
-                                child: Container(
-                                    padding: const EdgeInsets.all(10),
-                                    alignment: Alignment.center,
-                                    child: const Text(
-                                      "x",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w300,
-                                      ),
-                                    )),
+                            )),
+                      ),
+                      Expanded(
+                        child: Container(
+                            padding: const EdgeInsets.all(10),
+                            alignment: Alignment.center,
+                            child: TextButton(
+                              onPressed: () {
+                                press("-");
+                              },
+                              child: const Text(
+                                "-",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 38,
+                                  fontWeight: FontWeight.w300,
+                                ),
                               ),
-                              Expanded(
-                                child: Container(
-                                    padding: const EdgeInsets.all(10),
-                                    alignment: Alignment.center,
-                                    child: const Text(
-                                      "-",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 38,
-                                        fontWeight: FontWeight.w300,
-                                      ),
-                                    )),
+                            )),
+                      ),
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.only(bottom: 25),
+                          alignment: Alignment.center,
+                          child: TextButton(
+                            onPressed: () {
+                              press("+");
+                            },
+                            child: const Text(
+                              "+",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 25,
+                                fontWeight: FontWeight.w300,
                               ),
-                              Expanded(
-                                child: Container(
-                                    padding: const EdgeInsets.only(bottom: 25),
-                                    alignment: Alignment.center,
-                                    child: const Text(
-                                      "+",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.w300,
-                                      ),
-                                    )),
-                              ),
-                            ],
-                          )),
-                      Container(
-                        color: Colors.greenAccent,
-                        width: 25,
-                        height: 352,
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ),
+                Container(
+                  color: Colors.greenAccent,
+                  width: 25,
+                  height: 352,
+                ),
               ],
-            ))));
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

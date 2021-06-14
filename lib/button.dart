@@ -14,7 +14,7 @@ class Button extends StatelessWidget {
     @required this.color,
     @required this.textValue,
     @required this.fontSize,
-    this.fontWeight = FontWeight.w300,
+    this.fontWeight = FontWeight.w400,
     this.alignment = Alignment.center,
   })  : assert(textValue != null),
         assert(color != null),
@@ -26,11 +26,11 @@ class Button extends StatelessWidget {
     return Container(
       padding: padding,
       alignment: alignment,
-      color: color,
+      //color: color,
       child: Text(
         textValue,
         style: TextStyle(
-          color: Colors.red,
+          color: Colors.white,
           fontSize: fontSize,
           fontWeight: fontWeight,
         ),
@@ -38,17 +38,3 @@ class Button extends StatelessWidget {
     );
   }
 }
-
-//  Container(
-//                                         padding: const EdgeInsets.only(bottom: 10),
-//                                         alignment: Alignment.center,
-//                                         color: Colors.black54,
-//                                         child: const Text(
-//                                           "0",
-//                                           style: TextStyle(
-//                                             color: Colors.white,
-//                                             fontSize: 26,
-//                                             fontWeight: FontWeight.w300,
-//                                           ),
-//                                         )
-//                                     ),
