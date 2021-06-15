@@ -1,39 +1,42 @@
 import 'package:flutter/material.dart';
 
-class Button extends StatelessWidget {
-  final EdgeInsets padding;
-  final Alignment alignment;
-  final Color color;
-  final String textValue;
-  final double fontSize;
-  final FontWeight fontWeight;
+class NumPad extends StatelessWidget {
+  final String numValue;
 
-  Button({
-    Key key,
-    @required this.padding,
-    @required this.color,
-    @required this.textValue,
-    @required this.fontSize,
-    this.fontWeight = FontWeight.w400,
-    this.alignment = Alignment.center,
-  })  : assert(textValue != null),
-        assert(color != null),
-        assert(padding != null),
-        super(key: key);
+  NumPad(this.numValue);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: padding,
-      alignment: alignment,
-      //color: color,
+      color: Colors.blueGrey[900],
+      padding: EdgeInsets.only(bottom: 10),
+      alignment: Alignment.center,
       child: Text(
-        textValue,
+        numValue,
         style: TextStyle(
           color: Colors.white,
-          fontSize: fontSize,
-          fontWeight: fontWeight,
+          fontSize: 26,
+          fontWeight: FontWeight.w400,
         ),
+      ),
+    );
+  }
+}
+
+class Operator extends StatelessWidget {
+  final String opValue;
+  final double fontSize;
+
+  Operator({this.opValue, this.fontSize});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      opValue,
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: fontSize,
+        fontWeight: FontWeight.w400,
       ),
     );
   }

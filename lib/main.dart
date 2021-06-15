@@ -36,60 +36,187 @@ class Calculator extends StatefulWidget {
 }
 
 class _CalculatorState extends State<Calculator> {
-  final button = <Button>[];
-
   List<String> output = [];
-  String result = "";
+  String result = "2314";
 
-  void press(String value) {
+  void show(String value) {
     setState(() {
       output.add(value);
     });
   }
 
+  List<Widget> numButton() => [
+        Container(
+          decoration: BoxDecoration(shape: BoxShape.circle),
+          child: TextButton(
+            onPressed: () {
+              show("7");
+            },
+            child: NumPad("7"),
+          ),
+        ),
+        TextButton(
+          onPressed: () {
+            show("8");
+          },
+          child: NumPad("8"),
+        ),
+        TextButton(
+          onPressed: () {
+            show("9");
+          },
+          child: NumPad("9"),
+        ),
+        TextButton(
+          onPressed: () {
+            show("4");
+          },
+          child: NumPad("4"),
+        ),
+        TextButton(
+          onPressed: () {
+            show("5");
+          },
+          child: NumPad("5"),
+        ),
+        TextButton(
+          onPressed: () {
+            show("6");
+          },
+          child: NumPad("6"),
+        ),
+        TextButton(
+          onPressed: () {
+            show("1");
+          },
+          child: NumPad("1"),
+        ),
+        TextButton(
+          onPressed: () {
+            show("2");
+          },
+          child: NumPad("2"),
+        ),
+        TextButton(
+          onPressed: () {
+            show("3");
+          },
+          child: NumPad("3"),
+        ),
+        TextButton(
+          onPressed: () {
+            show(".");
+          },
+          child: NumPad("."),
+        ),
+        TextButton(
+          onPressed: () {
+            show("0");
+          },
+          child: NumPad("0"),
+        ),
+        TextButton(
+          onPressed: () {
+            show("=");
+          },
+          child: NumPad("="),
+        ),
+      ];
+
+  List<Widget> opButton() => [
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            alignment: Alignment.center,
+            child: TextButton(
+              onPressed: () => setState(
+                () {
+                  output.removeLast();
+                  print(output.toString());
+                },
+              ),
+              onLongPress: () => setState(
+                () => output.clear(),
+              ),
+              child: Operator(
+                fontSize: 16,
+                opValue: "DEL",
+              ),
+            ),
+          ),
+        ),
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            alignment: Alignment.center,
+            child: TextButton(
+              onPressed: () => setState(
+                () {
+                  show("/");
+                },
+              ),
+              child: Operator(
+                fontSize: 20,
+                opValue: "/",
+              ),
+            ),
+          ),
+        ),
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            alignment: Alignment.center,
+            child: TextButton(
+              onPressed: () => setState(
+                () {
+                  show("x");
+                },
+              ),
+              child: Operator(
+                fontSize: 20,
+                opValue: "x",
+              ),
+            ),
+          ),
+        ),
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            alignment: Alignment.center,
+            child: TextButton(
+              onPressed: () => setState(
+                () {
+                  show("-");
+                },
+              ),
+              child: Operator(
+                fontSize: 38,
+                opValue: "-",
+              ),
+            ),
+          ),
+        ),
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.only(bottom: 25),
+            alignment: Alignment.center,
+            child: TextButton(
+              onPressed: () => setState(
+                () {
+                  show("+");
+                },
+              ),
+              child: Operator(
+                fontSize: 20,
+                opValue: "+",
+              ),
+            ),
+          ),
+        ),
+      ];
+
   @override
   Widget build(BuildContext context) {
-    // add buttons appropraitely to the list of buttons
-    for (int i = 9; i >= -2; i--) {
-      if (i == 0) {
-        button.add(
-          Button(
-            textValue: ".",
-            color: Colors.black54,
-            fontSize: 26,
-            padding: EdgeInsets.only(bottom: 10),
-          ),
-        );
-      } else if (i == -1) {
-        button.add(
-          Button(
-            textValue: "0",
-            color: Colors.black54,
-            fontSize: 26,
-            padding: EdgeInsets.only(bottom: 10),
-          ),
-        );
-      } else if (i == -2) {
-        button.add(
-          Button(
-            textValue: "=",
-            color: Colors.black54,
-            fontSize: 26,
-            padding: EdgeInsets.only(bottom: 10),
-          ),
-        );
-      } else {
-        button.add(
-          Button(
-            textValue: i.toString(),
-            color: Colors.black54,
-            fontSize: 26,
-            padding: EdgeInsets.only(bottom: 10),
-          ),
-        );
-      }
-    }
-
     return SafeArea(
       child: Column(
         children: [
@@ -131,25 +258,13 @@ class _CalculatorState extends State<Calculator> {
           Container(
             child: Row(
               children: [
-                // 1 to 9
                 Container(
                   width: 270,
                   height: 352,
-                  color: Colors.black54,
-                  child: GridView.builder(
-                    shrinkWrap: true,
-                    primary: false,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                    ),
-                    itemCount: button.length,
-                    itemBuilder: (BuildContext context, int index) =>
-                        TextButton(
-                            onPressed: () {
-                              press(button[index].textValue);
-                            },
-                            child: button[index]),
+                  //color: Colors.blueGrey[900],
+                  child: GridView.count(
+                    crossAxisCount: 3,
+                    children: numButton(),
                   ),
                 ),
                 Container(
@@ -157,107 +272,7 @@ class _CalculatorState extends State<Calculator> {
                   width: 65,
                   height: 352,
                   child: Column(
-                    children: [
-                      Expanded(
-                        child: Container(
-                            padding: const EdgeInsets.all(10),
-                            alignment: Alignment.center,
-                            child: TextButton(
-                              onPressed: () {
-                                setState(() {
-                                  output.removeLast();
-                                  print(output.toString());
-                                });
-                              },
-                              onLongPress: () {
-                                setState(() {
-                                  output.clear();
-                                });
-                              },
-                              child: const Text(
-                                "DEL",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            )),
-                      ),
-                      Expanded(
-                        child: Container(
-                            padding: const EdgeInsets.all(10),
-                            alignment: Alignment.center,
-                            child: TextButton(
-                              onPressed: () {
-                                press("/");
-                              },
-                              child: const Text(
-                                "/",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w300,
-                                ),
-                              ),
-                            )),
-                      ),
-                      Expanded(
-                        child: Container(
-                            padding: const EdgeInsets.all(10),
-                            alignment: Alignment.center,
-                            child: TextButton(
-                              onPressed: () {
-                                press("x");
-                              },
-                              child: const Text(
-                                "x",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w300,
-                                ),
-                              ),
-                            )),
-                      ),
-                      Expanded(
-                        child: Container(
-                            padding: const EdgeInsets.all(10),
-                            alignment: Alignment.center,
-                            child: TextButton(
-                              onPressed: () {
-                                press("-");
-                              },
-                              child: const Text(
-                                "-",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 38,
-                                  fontWeight: FontWeight.w300,
-                                ),
-                              ),
-                            )),
-                      ),
-                      Expanded(
-                        child: Container(
-                          padding: const EdgeInsets.only(bottom: 25),
-                          alignment: Alignment.center,
-                          child: TextButton(
-                            onPressed: () {
-                              press("+");
-                            },
-                            child: const Text(
-                              "+",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 25,
-                                fontWeight: FontWeight.w300,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                    children: opButton(),
                   ),
                 ),
                 Container(
